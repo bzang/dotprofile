@@ -1,15 +1,14 @@
 #!/bin/bash
 
 # Check if ruby is available
+declare -a required_commands=('ruby')
 
-required_commands = ('ruby');
-
-for i in $( required_commands ); do
+for i in $required_commands; do
 	command -v $i >/dev/null 2>&1 || { echo >&2 "$i is required."; exit 1; }
 done
 
 # Check for and install command line tools
-if [ $(pkgutil --pkg-info=com.apple.pkg.CLTools_Executables) !=~ 'package-id' ]; then
+if [[ ! $(pkgutil --pkg-info=com.apple.pkg.CLTools_Executables) =~ 'package-id' ]]; then
 	xcode-select --install
 fi
 
